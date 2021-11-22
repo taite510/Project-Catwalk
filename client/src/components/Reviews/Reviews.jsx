@@ -95,7 +95,7 @@ class Reviews extends React.Component {
 
   render() {
     const {
-      reviews, lessReviews, currentID, moreReviewtext, moreReview, meta, charItem, modalShow, count
+      reviews, lessReviews, currentID, moreReviewtext, moreReview, meta, charItem, modalShow, count,
     } = this.state;
     // default: render 2 review, if more review button is clicked, show all reviews.
     let renderReviews;

@@ -1,12 +1,15 @@
 const axios = require('axios');
-const config = require('../config');
+// const config = require('../config');
+const productsUrl = 'http://54.177.121.5:5000';
+const questionsUrl = 'http://18.217.106.186:3001';
+const reviewsUrl = 'http://18.218.143.214:5000';
 
 module.exports = {
   products: {
     getProducts: (req, res) => {
-      axios.get(`${config.ALTELIER_API}/products`, {
+      axios.get(`${productsUrl}/products`, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then((response) => {
@@ -17,12 +20,13 @@ module.exports = {
         });
     },
     getProductById: (req, res) => {
-      axios.get(`${config.ALTELIER_API}/products/${req.params.product_id}`, {
+      axios.get(`${productsUrl}/products/${req.params.product_id}`, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then((response) => {
+          console.log(response.data);
           res.status(200).send(response.data);
         })
         .catch((err) => {
@@ -30,9 +34,9 @@ module.exports = {
         });
     },
     getStyles: (req, res) => {
-      axios.get(`${config.ALTELIER_API}/products/${req.params.product_id}/styles`, {
+      axios.get(`${productsUrl}/products/${req.params.product_id}/styles`, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then((response) => {
@@ -43,9 +47,9 @@ module.exports = {
         });
     },
     getRelated: (req, res) => {
-      axios.get(`${config.ALTELIER_API}/products/${req.params.product_id}/related`, {
+      axios.get(`${productsUrl}/products/${req.params.product_id}/related`, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then((response) => {
@@ -58,12 +62,10 @@ module.exports = {
   },
   reviews: {
     getReviews: (req, res) => {
-      const productStr = `?product_id=${req.params.product_id}`;
-      axios.get(`${config.ALTELIER_API}/reviews/${productStr}`, {
-        headers: {
-          Authorization: `${config.API_KEY}`,
-        },
-      })
+      console.log(req.params.product_id);
+      const productStr = `?product_id=${req.params.product_id}&count=100`;
+      console.log(`${reviewsUrl}/reviews/${productStr}`);
+      axios.get(`${reviewsUrl}/reviews/${productStr}`)
         .then((response) => {
           res.status(200).send(response.data);
         })
@@ -73,9 +75,9 @@ module.exports = {
     },
     getMetadata: (req, res) => {
       const productStr = `?product_id=${req.params.product_id}`;
-      axios.get(`${config.ALTELIER_API}/reviews/meta/${productStr}`, {
+      axios.get(`${reviewsUrl}/reviews/meta/${productStr}`, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then((response) => {
@@ -87,9 +89,9 @@ module.exports = {
     },
     postReviews: (req, res) => {
       console.log(req.body);
-      axios.post(`${config.ALTELIER_API}/reviews`, req.body, {
+      axios.post(`${reviewsUrl}/reviews`, req.body, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then(() => {
@@ -100,9 +102,9 @@ module.exports = {
         });
     },
     putReviewHelpful: (req, res) => {
-      axios.put(`${config.ALTELIER_API}/reviews/${req.params.review_id}/helpful`, {}, {
+      axios.put(`${reviewsUrl}/reviews/${req.params.review_id}/helpful`, {}, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then(() => {
@@ -113,9 +115,9 @@ module.exports = {
         });
     },
     putReviewReport: (req, res) => {
-      axios.put(`${config.ALTELIER_API}/reviews/${req.params.review_id}/report`, {}, {
+      axios.put(`${reviewsUrl}/reviews/${req.params.review_id}/report`, {}, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then(() => {
@@ -131,9 +133,9 @@ module.exports = {
       // count 3 shows 2 questions. not sure why it's not consistent with the number
       // /?product_id=42366&count=3
       // console.log('req params QA', req.params.product_id);
-      axios.get(`${config.ALTELIER_API}/qa/questions/?product_id=${req.params.product_id}`, {
+      axios.get(`${questionsUrl}/qa/questions/?product_id=${req.params.product_id}&count=100`, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then((response) => {
@@ -146,9 +148,9 @@ module.exports = {
     getAnswers: (req, res) => {
       // console.log('get answers params', req.params);
       // remove count `/answers?count=2`
-      axios.get(`${config.ALTELIER_API}/qa/questions/${req.params.question_id}/answers`, {
+      axios.get(`${questionsUrl}/qa/questions/${req.params.question_id}/answers`, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then((response) => {
@@ -162,14 +164,14 @@ module.exports = {
       // need to send product id with body
       // body: {"body": "Is the sizing accurate?", "name": "fashionista123",
       // "email": "fashionista123@gmail.com", "product_id": 42366}
-      axios.post(`${config.ALTELIER_API}/qa/questions/`, {
+      axios.post(`${questionsUrl}/qa/questions/`, {
         body: req.body.body,
         name: req.body.name,
         email: req.body.email,
         product_id: req.body.product_id,
       }, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then((response) => {
@@ -184,14 +186,14 @@ module.exports = {
       // need to figure out how to get img url from user photo uploads
       // body: {"body": "True to size", "name": "jane",
       // "email": "jane@gmail.com", "photos": []}
-      axios.post(`${config.ALTELIER_API}/qa/questions/${req.params.question_id}/answers`, {
+      axios.post(`${questionsUrl}/qa/questions/${req.params.question_id}/answers`, {
         body: req.body.body,
         name: req.body.name,
         email: req.body.email,
         photos: [],
       }, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then((response) => {
@@ -202,9 +204,9 @@ module.exports = {
         });
     },
     putQuestionHelpful: (req, res) => {
-      axios.put(`${config.ALTELIER_API}/qa/questions/${req.params.question_id}/helpful`, {}, {
+      axios.put(`${questionsUrl}/qa/questions/${req.params.question_id}/helpful`, {}, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then((response) => {
@@ -215,9 +217,9 @@ module.exports = {
         });
     },
     putAnswerHelpful: (req, res) => {
-      axios.put(`${config.ALTELIER_API}/qa/answers/${req.params.answer_id}/helpful`, {}, {
+      axios.put(`${questionsUrl}/qa/answers/${req.params.answer_id}/helpful`, {}, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then((response) => {
@@ -228,9 +230,9 @@ module.exports = {
         });
     },
     putQuestionReport: (req, res) => {
-      axios.put(`${config.ALTELIER_API}/qa/questions/${req.params.question_id}/report`, {}, {
+      axios.put(`${questionsUrl}/qa/questions/${req.params.question_id}/report`, {}, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then((response) => {
@@ -241,9 +243,9 @@ module.exports = {
         });
     },
     putAnswerReport: (req, res) => {
-      axios.put(`${config.ALTELIER_API}/qa/answers/${req.params.answer_id}/report`, {}, {
+      axios.put(`${questionsUrl}/qa/answers/${req.params.answer_id}/report`, {}, {
         headers: {
-          Authorization: `${config.API_KEY}`,
+          Authorization: '431231231231215412',
         },
       })
         .then((response) => {

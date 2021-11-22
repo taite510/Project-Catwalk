@@ -43,14 +43,14 @@ class ProductDetails extends React.Component {
   getProductInfo() {
     axios.get(`/products/${this.props.productId}`)
       .then((response) => {
-        // console.log('product info', this.state.currentID, response.data);
+        console.log('product info', this.state.currentID, response.data);
         this.setState({
           product: response.data,
         });
       })
       .then(axios.get(`/products/${this.props.productId}/styles`)
         .then((response) => {
-          // console.log('product style', response.data);
+          console.log('product style', response.data);
           this.setState({
             style: response.data,
             currentStyle: response.data.results[0],
@@ -58,7 +58,7 @@ class ProductDetails extends React.Component {
         }))
       .then(axios.get(`/reviews/${this.props.productId}`)
         .then((response) => {
-          // console.log('product reviews', response.data);
+          console.log('product reviews', response.data);
           this.setState({
             currentReviews: response.data,
           });
